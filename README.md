@@ -1,5 +1,7 @@
 # Weather-Aware Truck Routing
 
+**Live demo: https://weather-aware-truck-routing-ecru.vercel.app** (try *Denver → Salt Lake City*)
+
 Helps a truck driver choose the safest route by combining **forecast weather at the time the truck
 will actually be there**, **load weight** and **travel time**.
 
