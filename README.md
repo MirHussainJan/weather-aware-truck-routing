@@ -211,9 +211,14 @@ CI (`.github/workflows/ci.yml`) runs all of the above plus a Docker build.
 ## Deployment
 
 One Docker image (multi-stage: Node builds the SPA, Python serves API + SPA).
-**Render:** push the repo, *New → Blueprint*, select `render.yaml` (web service + Redis-compatible cache).
-Any Docker host works: set `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS`, optionally `REDIS_URL`
-(see `.env.example`).
+
+* **Hugging Face Spaces (hosted demo, free):** a *Docker* Space with `app_port: 8000` in the Space's
+  README header, and `DJANGO_SECRET_KEY` as a Space secret. The Space hostname (`SPACE_HOST`) is allowed
+  automatically, and only on a Space is `huggingface.co` permitted to frame the app.
+* **Render:** *New → Blueprint* with `render.yaml` (web service + Redis-compatible cache), or a single
+  Docker web service with `DJANGO_SECRET_KEY` set. `RENDER_EXTERNAL_HOSTNAME` is allowed automatically.
+* **Any Docker host:** set `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS`, optionally `REDIS_URL`
+  (see `.env.example`). Without Redis the app falls back to an in-process cache.
 
 ## Assumptions & limitations
 

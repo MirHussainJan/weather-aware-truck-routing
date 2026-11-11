@@ -33,6 +33,11 @@ CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
 if render_host := env("RENDER_EXTERNAL_HOSTNAME"):  # set automatically by Render
     ALLOWED_HOSTS.append(render_host)
     CSRF_TRUSTED_ORIGINS.append(f"https://{render_host}")
+if space_host := env("SPACE_HOST"):  # set automatically by Hugging Face Spaces
+    ALLOWED_HOSTS.append(space_host)
+    CSRF_TRUSTED_ORIGINS.append(f"https://{space_host}")
+# On a Hugging Face Space the app is also shown inside huggingface.co's Space page (an iframe).
+ON_HF_SPACE = bool(env("SPACE_ID"))
 
 INSTALLED_APPS = [
     "rest_framework",
@@ -47,6 +52,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.csp.ContentSecurityPolicyMiddleware",
 ]
+if ON_HF_SPACE:  # framing is governed by CSP frame-ancestors below instead
+    MIDDLEWARE.remove("django.middleware.clickjacking.XFrameOptionsMiddleware")
 
 ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
@@ -148,7 +155,7 @@ SECURE_CSP = {
     "child-src": ["blob:"],
     "object-src": [CSP.NONE],
     "base-uri": [CSP.SELF],
-    "frame-ancestors": [CSP.NONE],
+    "frame-ancestors": ["https://huggingface.co"] if ON_HF_SPACE else [CSP.NONE],
     "form-action": [CSP.SELF],
 }
 
