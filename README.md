@@ -212,7 +212,11 @@ CI (`.github/workflows/ci.yml`) runs all of the above plus a Docker build.
 
 One Docker image (multi-stage: Node builds the SPA, Python serves API + SPA).
 
-* **Hugging Face Spaces (hosted demo, free):** a *Docker* Space with `app_port: 8000` in the Space's
+* **Vercel (hosted demo, free Hobby plan):** import the GitHub repo and set `DJANGO_SECRET_KEY`.
+  `vercel.json` builds the SPA to Vercel's CDN (same security headers / CSP as Django sends) and runs the
+  Django API as one Python function (`api/index.py`); Vercel hostnames are allowed automatically.
+  Without Redis the cache is per function instance, which is fine for a demo.
+* **Hugging Face Spaces:** a *Docker* Space with `app_port: 8000` in the Space's
   README header, and `DJANGO_SECRET_KEY` as a Space secret. The Space hostname (`SPACE_HOST`) is allowed
   automatically, and only on a Space is `huggingface.co` permitted to frame the app.
 * **Render:** *New → Blueprint* with `render.yaml` (web service + Redis-compatible cache), or a single

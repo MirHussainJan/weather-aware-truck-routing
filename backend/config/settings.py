@@ -36,6 +36,10 @@ if render_host := env("RENDER_EXTERNAL_HOSTNAME"):  # set automatically by Rende
 if space_host := env("SPACE_HOST"):  # set automatically by Hugging Face Spaces
     ALLOWED_HOSTS.append(space_host)
     CSRF_TRUSTED_ORIGINS.append(f"https://{space_host}")
+for vercel_var in ("VERCEL_PROJECT_PRODUCTION_URL", "VERCEL_BRANCH_URL", "VERCEL_URL"):  # set by Vercel
+    if vercel_host := env(vercel_var):
+        ALLOWED_HOSTS.append(vercel_host)
+        CSRF_TRUSTED_ORIGINS.append(f"https://{vercel_host}")
 # On a Hugging Face Space the app is also shown inside huggingface.co's Space page (an iframe).
 ON_HF_SPACE = bool(env("SPACE_ID"))
 
