@@ -1,0 +1,21 @@
+[project]
+name = "weather-aware-truck-routing"
+version = "1.0.0"
+requires-python = ">=3.13"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings_test"
+python_files = ["test_*.py"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 110
+target-version = "py313"
+extend-exclude = [".venv", "staticfiles"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "RUF", "PERF", "S"]
+ignore = ["S101", "RUF001", "RUF002", "RUF003", "RUF012"]
+
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*" = ["S", "PLR2004"]

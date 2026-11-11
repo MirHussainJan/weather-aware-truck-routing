@@ -1,0 +1,26 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+backend/staticfiles/
+
+# Node
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Env / editors
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+
+# Rendered explainer video (large binary; share via Loom/Drive instead)
+/explainer/
+
+# Remotion trailer project (sources + renders, kept out of the app repo)
+/trailer/

@@ -1,0 +1,27 @@
+# Render Blueprint: one Docker web service + a managed Redis-compatible cache.
+services:
+  - type: web
+    name: weather-aware-truck-routing
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: wtr-cache
+          property: connectionString
+      - key: WEB_CONCURRENCY
+        value: "2"
+      # Optional: a commercial Open-Meteo key lifts the free tier's 600 locations/minute limit.
+      # Set OPEN_METEO_URL=https://customer-api.open-meteo.com/v1/forecast together with it.
+      - key: OPEN_METEO_API_KEY
+        sync: false
+
+  - type: keyvalue
+    name: wtr-cache
+    plan: free
+    maxmemoryPolicy: allkeys-lru
+    ipAllowList: [] # only reachable from services in this account
