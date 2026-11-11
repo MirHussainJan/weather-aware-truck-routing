@@ -1,1 +1,7 @@
--r backend/requirements.txt
+# Dependencies of the Vercel Python function (api/index.py).
+# Same pins as backend/requirements.txt, minus the Docker-only server (gunicorn) and Redis client;
+# backend/routing/tests/test_deploy.py fails if the two files drift apart.
+Django==6.1.3
+djangorestframework==3.18.3
+requests==2.34.2
+whitenoise==6.12.0
